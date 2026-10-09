@@ -13,7 +13,7 @@ export default async function SchedaMaestro({ params }) {
 
   const [{ data: saldo }, { data: movimenti }, { data: campi }, { data: tariffe }] = await Promise.all([
     supabase.from('saldi').select('*').eq('maestro_id', params.id).maybeSingle(),
-    supabase.from('movimenti').select('*').eq('maestro_id', params.id),
+    supabase.from('movimenti').select('*, autore:profili!movimenti_creato_da_fkey(nome_visualizzato), modificatore:profili!movimenti_modificato_da_fkey(nome_visualizzato)').eq('maestro_id', params.id),
     supabase.from('campi').select('*').order('ordine').order('numero'),
     supabase.from('tariffe').select('*').order('ordine'),
   ]);
@@ -41,7 +41,7 @@ export default async function SchedaMaestro({ params }) {
         </div>
         <section className="pannello">
           <h2>Storico operazioni</h2>
-          <Storico movimenti={movimenti || []} modificabile={admin} />
+          <Storico movimenti={movimenti || []} modificabile={admin} mostraOperatore />
         </section>
       </div>
     </>

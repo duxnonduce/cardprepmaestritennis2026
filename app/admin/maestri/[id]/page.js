@@ -14,7 +14,7 @@ export default async function Maestro({ params }) {
   const [{ data: m }, { data: saldo }, { data: movimenti }, { data: account }] = await Promise.all([
     supabase.from('maestri').select('*').eq('id', params.id).maybeSingle(),
     supabase.from('saldi').select('saldo').eq('maestro_id', params.id).maybeSingle(),
-    supabase.from('movimenti').select('*').eq('maestro_id', params.id),
+    supabase.from('movimenti').select('*, autore:profili!movimenti_creato_da_fkey(nome_visualizzato), modificatore:profili!movimenti_modificato_da_fkey(nome_visualizzato)').eq('maestro_id', params.id),
     supabase.from('profili').select('id, username, attivo').eq('maestro_id', params.id),
   ]);
   if (!m) notFound();
@@ -73,7 +73,7 @@ export default async function Maestro({ params }) {
 
         <section className="pannello">
           <h2>Storico operazioni</h2>
-          <Storico movimenti={movimenti || []} modificabile />
+          <Storico movimenti={movimenti || []} modificabile mostraOperatore />
         </section>
       </div>
     </>

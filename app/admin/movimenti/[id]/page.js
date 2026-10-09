@@ -4,6 +4,7 @@ import AzioneForm from '@/components/AzioneForm';
 import Pulsante from '@/components/Pulsante';
 import { getSessione } from '@/lib/auth';
 import { decimaleIt, ora } from '@/lib/format';
+import { differenze, NOMI_AZIONE, quando as quandoReg } from '@/lib/registro';
 import { aggiornaMovimento, eliminaMovimento } from '../../actions';
 
 export const dynamic = 'force-dynamic';
@@ -13,7 +14,7 @@ const quando = (ts) =>
 
 export default async function Movimento({ params }) {
   const { supabase } = await getSessione();
-  const [{ data: m }, { data: maestri }, { data: campi }] = await Promise.all([
+  const [{ data: m }, { data: maestri }, { data: campi }, { data: eventi }] = await Promise.all([
     supabase
       .from('movimenti')
       .select('*, autore:profili!movimenti_creato_da_fkey(nome_visualizzato), modificatore:profili!movimenti_modificato_da_fkey(nome_visualizzato)')
@@ -21,13 +22,15 @@ export default async function Movimento({ params }) {
       .maybeSingle(),
     supabase.from('maestri').select('id, nome, cognome').order('cognome'),
     supabase.from('campi').select('numero').order('ordine').order('numero'),
+    supabase.from('registro').select('*').eq('movimento_id', params.id).order('quando'),
   ]);
   if (!m) notFound();
+  const nomi = Object.fromEntries((maestri || []).map((x) => [x.id, `${x.cognome} ${x.nome}`]));
 
   return (
     <>
       <p className="briciole"><Link href="/admin/movimenti">Movimenti</Link></p>
-      <h1>Modifica operazione</h1>
+      <h1>Operazione</h1>
       <p className="tenue">
         Registrata il {quando(m.creato_il)}{m.autore ? ` da ${m.autore.nome_visualizzato}` : ''}
         {m.modificato_il && `. Ultima modifica il ${quando(m.modificato_il)}${m.modificatore ? ` da ${m.modificatore.nome_visualizzato}` : ''}`}.
@@ -94,6 +97,25 @@ export default async function Movimento({ params }) {
           <label className="campo-form"><span>Note</span><input name="note" defaultValue={m.note || ''} maxLength={200} /></label>
           <Pulsante>Salva modifiche</Pulsante>
         </AzioneForm>
+      </section>
+
+      <section className="pannello stretta">
+        <h2>Cronologia</h2>
+        {!eventi?.length ? (
+          <p className="vuoto">Nessun evento registrato.</p>
+        ) : (
+          <ol className="cronologia">
+            {eventi.map((e) => (
+              <li key={e.id}>
+                <strong>{NOMI_AZIONE[e.azione]}</strong> da {e.utente_nome || 'sistema'}, {quandoReg(e.quando)}
+                {e.azione === 'modifica' &&
+                  differenze(e.prima, e.dopo, (id) => nomi[id] || 'maestro eliminato').map((c) => (
+                    <div key={c} className="nota">{c}</div>
+                  ))}
+              </li>
+            ))}
+          </ol>
+        )}
       </section>
 
       <AzioneForm action={eliminaMovimento} className="zona-pericolo stretta">

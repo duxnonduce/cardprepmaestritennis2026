@@ -5,6 +5,9 @@ import { descrizioneMovimento, euro, oggiRoma } from '@/lib/format';
 
 export const dynamic = 'force-dynamic';
 
+const oraRegistrazione = (ts) =>
+  new Intl.DateTimeFormat('it-IT', { timeStyle: 'short', timeZone: 'Europe/Rome' }).format(new Date(ts));
+
 export default async function Cassa({ searchParams }) {
   const { supabase } = await getSessione();
   const oggi = oggiRoma();
@@ -15,7 +18,7 @@ export default async function Cassa({ searchParams }) {
     supabase.from('tariffe').select('*').order('ordine'),
     supabase
       .from('movimenti')
-      .select('*, maestri(nome, cognome)')
+      .select('*, maestri(nome, cognome), autore:profili!movimenti_creato_da_fkey(nome_visualizzato)')
       .eq('data', oggi)
       .order('creato_il', { ascending: false }),
   ]);
@@ -46,6 +49,8 @@ export default async function Cassa({ searchParams }) {
                   <th>Maestro</th>
                   <th>Operazione</th>
                   <th className="num">Importo</th>
+                  <th>Operatore</th>
+                  <th>Ora</th>
                 </tr>
               </thead>
               <tbody>
@@ -56,6 +61,8 @@ export default async function Cassa({ searchParams }) {
                     <td className={`num nowrap ${m.tipo === 'ricarica' ? 'pos' : 'neg'}`}>
                       {m.tipo === 'ricarica' ? '+' : '−'}{euro(m.importo)}
                     </td>
+                    <td>{m.autore?.nome_visualizzato || ''}</td>
+                    <td className="nowrap">{oraRegistrazione(m.creato_il)}</td>
                   </tr>
                 ))}
               </tbody>

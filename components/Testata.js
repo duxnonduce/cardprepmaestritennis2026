@@ -6,6 +6,7 @@ const VOCI = {
     ['/segreteria', 'Cassa'],
     ['/admin/maestri', 'Maestri'],
     ['/admin/movimenti', 'Movimenti'],
+    ['/admin/registro', 'Registro'],
     ['/admin/utenti', 'Utenze'],
     ['/admin/impostazioni', 'Campi e tariffe'],
   ],

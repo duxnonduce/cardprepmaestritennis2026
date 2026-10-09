@@ -318,3 +318,9 @@ input[type='checkbox'], input[type='radio'] { width: auto; min-height: 0; accent
 
 .tabella.tariffe td { vertical-align: middle; }
 .tabella.tariffe input { min-width: 90px; }
+
+.cronologia { margin: 0; padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.6rem; }
+.badge.azione-modifica { background: #fff6d6; border-color: #e8d48a; color: #6b5300; }
+.badge.azione-eliminazione { background: #fdecea; border-color: #f2b8b2; color: var(--rosso); }
+.badge.azione-creazione { background: #e3f1e8; border-color: #b7dbc5; color: var(--verde); }
+.tabella td .badge { margin-left: 0; }

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { dataIt, descrizioneMovimento, euro } from '@/lib/format';
 
 // Mostra lo storico con il saldo progressivo dopo ogni operazione
-export default function Storico({ movimenti, modificabile = false }) {
+export default function Storico({ movimenti, modificabile = false, mostraOperatore = false }) {
   if (!movimenti?.length) return <p className="vuoto">Nessuna operazione registrata.</p>;
 
   const crescente = [...movimenti].sort((a, b) =>
@@ -25,6 +25,7 @@ export default function Storico({ movimenti, modificabile = false }) {
             <th>Operazione</th>
             <th className="num">Importo</th>
             <th className="num">Saldo</th>
+            {mostraOperatore && <th>Operatore</th>}
             {modificabile && <th><span className="sr">Azioni</span></th>}
           </tr>
         </thead>
@@ -40,6 +41,12 @@ export default function Storico({ movimenti, modificabile = false }) {
                 {m.tipo === 'ricarica' ? '+' : '−'}{euro(m.importo)}
               </td>
               <td className={`num nowrap ${m.progressivo < 0 ? 'neg' : ''}`}>{euro(m.progressivo)}</td>
+              {mostraOperatore && (
+                <td>
+                  {m.autore?.nome_visualizzato || <span className="tenue">Non indicato</span>}
+                  {m.modificato_il && <div className="nota">modificata da {m.modificatore?.nome_visualizzato || 'admin'}</div>}
+                </td>
+              )}
               {modificabile && (
                 <td><Link href={`/admin/movimenti/${m.id}`}>Modifica</Link></td>
               )}
