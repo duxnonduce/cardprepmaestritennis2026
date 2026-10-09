@@ -1,7 +1,7 @@
 :root {
   --campo: #1e4d3b;
-  --campo-scuro: #133428;
-  --palla: #dceb4a;
+  --campo-scuro: #194036;
+  --palla: #f9ea90;
   --inchiostro: #17201b;
   --carta: #f2f4f0;
   --bianco: #ffffff;
@@ -57,6 +57,9 @@ a { color: var(--campo); text-underline-offset: 2px; }
   gap: 0.5rem 1rem;
 }
 .marchio {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
   font-family: var(--font-titoli);
   font-weight: 700;
   font-size: 1.3rem;
@@ -245,7 +248,7 @@ input[type='checkbox'], input[type='radio'] { width: auto; min-height: 0; accent
 .interruttore button[aria-checked='true'] { background: var(--campo); color: var(--bianco); }
 .tipo-ricarica .interruttore button[aria-checked='true'] { background: var(--palla); color: var(--campo-scuro); }
 .tipo-ricarica .btn.primario { background: var(--palla); color: var(--campo-scuro); }
-.tipo-ricarica .btn.primario:hover { background: #cad93a; }
+.tipo-ricarica .btn.primario:hover { background: #efdc72; }
 .anteprima { margin: 0; padding: 0.6rem 0.85rem; background: var(--carta); border-radius: var(--r); }
 .anteprima.neg { background: #fdecea; color: var(--rosso); }
 
@@ -324,3 +327,17 @@ input[type='checkbox'], input[type='radio'] { width: auto; min-height: 0; accent
 .badge.azione-eliminazione { background: #fdecea; border-color: #f2b8b2; color: var(--rosso); }
 .badge.azione-creazione { background: #e3f1e8; border-color: #b7dbc5; color: var(--verde); }
 .tabella td .badge { margin-left: 0; }
+
+/* Loghi: senza fondo, direttamente sul verde */
+.loghi { display: inline-flex; align-items: center; gap: 0.7rem; }
+.logo-img { height: 30px; width: auto; display: block; }
+.logo-testo { font-family: var(--font-titoli); font-weight: 700; font-size: 0.9rem; color: var(--palla); white-space: nowrap; }
+.loghi-sep { width: 1px; height: 24px; background: rgba(249, 234, 144, 0.4); }
+.loghi.grandi { gap: 1.25rem; margin-bottom: 1.1rem; }
+.loghi.grandi .logo-img { height: 64px; }
+.loghi.grandi .loghi-sep { height: 48px; }
+.loghi.grandi .logo-testo { font-size: 1.1rem; }
+@media (max-width: 480px) {
+  .marchio > span:last-child { display: none; }
+  .logo-img { height: 26px; }
+}

@@ -5,8 +5,8 @@ const testo = Barlow({ subsets: ['latin'], weight: ['400', '500', '600'], variab
 const titoli = Barlow_Semi_Condensed({ subsets: ['latin'], weight: ['500', '600', '700'], variable: '--font-titoli' });
 
 export const metadata = {
-  title: 'KickOff Crediti',
-  description: 'Credito prepagato dei maestri di KickOff Sport Center',
+  title: 'Maestri Tennis',
+  description: 'Credito campi dei maestri di KickOff Sport Center e Micolani Tennis',
 };
 
 export const viewport = { themeColor: '#1E4D3B' };

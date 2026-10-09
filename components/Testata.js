@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Loghi from './Loghi';
 import Navigazione from './Navigazione';
 
 const VOCI = {
@@ -18,7 +19,10 @@ export default function Testata({ profilo }) {
   return (
     <header className="testata">
       <div className="testata-in">
-        <Link href="/" className="marchio">KickOff Crediti</Link>
+        <Link href="/" className="marchio">
+          <Loghi />
+          <span>Maestri Tennis</span>
+        </Link>
         <Navigazione voci={VOCI[profilo.ruolo] || []} />
         <div className="utente">
           <span>{profilo.nome_visualizzato}</span>

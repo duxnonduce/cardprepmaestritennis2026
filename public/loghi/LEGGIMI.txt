@@ -1,0 +1,7 @@
+Metti qui i due loghi, con questi nomi esatti:
+
+  kickoff.png
+  micolani.png
+
+PNG con sfondo trasparente, alti almeno 120 px.
+Finché mancano, al loro posto compare il nome scritto.

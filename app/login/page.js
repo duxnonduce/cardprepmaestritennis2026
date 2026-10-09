@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getSessione, homePer } from '@/lib/auth';
+import Loghi from '@/components/Loghi';
 import LoginForm from './LoginForm';
 
 const ERRORI = {
@@ -14,7 +15,8 @@ export default async function Login({ searchParams }) {
     <main className="accesso">
       <div className="accesso-box">
         <div className="accesso-testa">
-          <h1>KickOff Crediti</h1>
+          <Loghi grandi />
+          <h1>Maestri Tennis</h1>
           <p>Credito campi dei maestri</p>
         </div>
         <LoginForm erroreIniziale={ERRORI[searchParams?.errore] || null} />

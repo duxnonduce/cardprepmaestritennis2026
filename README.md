@@ -1,4 +1,4 @@
-# KickOff Crediti
+# Maestri Tennis
 
 Credito prepagato dei maestri per l'uso dei campi.
 
@@ -37,6 +37,9 @@ Deploy, poi entra con username **admin**.
 1. **Campi e tariffe**: campi e prezzi sono già caricati, controllali.
 2. **Maestri**: aggiungi i maestri (con username e password se devono vedere il saldo).
 3. **Utenze**: crea l'utenza della segreteria.
+
+## Loghi
+I loghi sono in `public/loghi/` (sfondo trasparente). L'icona della scheda del browser è `app/icon.png`.
 
 ## Note
 - Le utenze usano solo lo username: internamente diventa `username@kickoff.local`, nessuna email viene inviata.
